@@ -12,6 +12,7 @@ initialize();
 
 var routes = {
   '/' : handler.handleRequest
+  // '/www.google.com': handler.handleRequest
 };
 
 var port = 8080;
@@ -22,11 +23,14 @@ var server = http.createServer(function(req, res) {
   var route = routes[parts.pathname];
 
   if (route) {
-    route(req, res)
+    route(req, res, "/public/index.html")
   } else {
-    res.writeHead(404);
-    res.write("Not Found! HERE!");
-    res.end();
+    handler.handleRequest(req, res, "../archives/sites" + parts.pathname);
+  // } else {
+  //   res.writeHead(404);
+  //   res.write("Not Found! HERE!");
+  //   res.end();
+  // }
   }
 });
 

@@ -14,24 +14,26 @@ exports.serveAssets = function(res, asset, callback) {
   
   var filepath = path.join(__dirname, asset);
   
+  console.dir(filepath);
+  
   fs.readFile(filepath, function(err, data) {
     
-    if (err) {
-      throw err;
-    }
+      if (err) { throw err; }
 
-    var statusCode = 200;
-    res.writeHead(statusCode, headers);
-    res.write(data);
-    res.end();
+      var statusCode = 200;
+      res.writeHead(statusCode, headers);
+      res.write(data);
+      res.end();
 
-  });
+    });
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
   
 };
 
+exports.writeUrl = function(res) {
 
+}
 
 // As you progress, keep thinking about what helper functions you can put here!
