@@ -29,26 +29,4 @@ exports.serveAssets = function(res, asset, callback) {
   
 };
 
-exports.retrieveUrl = function() {
-
-};
-
-exports.writeUrl = function(req, res) {
-  var data = '';
-  req.on('data',  function(chunk) {
-    data += chunk;
-  });
-  req.on('end', function() {
-    
-    console.log(JSON.parse(data));
-    archive.addUrlToList(JSON.parse(data).url);
-    
-    res.writeHead(302, headers);
-    res.end();
-    
-  });
-
-  // archive.isUrlInList();  
-}
-
 // As you progress, keep thinking about what helper functions you can put here!

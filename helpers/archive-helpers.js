@@ -60,16 +60,10 @@ exports.isUrlArchived = function(url, cb){
 exports.downloadUrls = function(urls){
   for (var i=0; i < urls.length; i++) {
     var url = urls[i];
-    // exports.isUrlInList(url, function(isInList) {
-      // if (!isInList) {
-    console.log('we got to the downaload part', url);
-    console.log(exports.paths.archivedSites + "/" + url);
-    var urlObj = {
-      url: 'http://' + url,
-      method: 'GET',
-    };
-    http.get(urlObj, "../archives/sites/" + url);
-      // }
-    // });
+    http.get({url: url}, function(err, res) {
+      fs.writeFile(exports.paths.archivedSites + "/" + url, res.buffer.toString(), function(err) {
+        if (err) { throw err; }
+      });
+    });
   }
 };
