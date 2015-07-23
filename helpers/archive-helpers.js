@@ -26,13 +26,8 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(cb){
-
   fs.readFile(exports.paths.list, "utf-8", function(error, data) {
-    
-    if (error) {
-      throw error;
-    }
-    
+    if (error) { throw error; }
     var fileContents = data.toString().split("\n");
     cb(fileContents);
   });
@@ -40,7 +35,6 @@ exports.readListOfUrls = function(cb){
 };
 
 exports.isUrlInList = function(url, cb){
-
   exports.readListOfUrls(function(urls) {
     var result = _.contains(urls, url);
     cb(result);
@@ -48,20 +42,26 @@ exports.isUrlInList = function(url, cb){
 };
 
 exports.addUrlToList = function(url, cb){
-
-  fs.appendFile(exports.paths.list, url, "utf-8", function(err) {
+  fs.appendFile(exports.paths.list, url + "\n", "utf-8", function(err) {
     if (err) { throw error; }
     cb();
   });
 };
 
 exports.isUrlArchived = function(url, cb){
-
   fs.readdir(exports.paths.archivedSites, function(err, files) {
+    if (err) {throw error;}
     var result = _.contains(files, url);
     cb(result);
   });
 };
 
-exports.downloadUrls = function(){
+exports.downloadUrls = function(urls){
+  exports.readListOfUrls(function(listUrls) {
+    for (var i=0; i < urls.length; i++) {
+      exports.isUrlInList(urls[i], function(url) {
+        //TO DO:  HOOK UP TO CRON JOB FOR DOWNLOADING WEBPAGES FROM SITES
+      });
+    }
+  });
 };

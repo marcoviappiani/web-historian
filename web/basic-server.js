@@ -1,7 +1,6 @@
 var http = require("http");
 var handler = require("./request-handler");
 var initialize = require("./initialize.js");
-var urlParser = require("url");
 
 // Why do you think we have this here?
 // HINT: It has to do with what's in .gitignore
@@ -10,28 +9,11 @@ var urlParser = require("url");
 
 initialize();
 
-var routes = {
-  '/' : handler.handleRequest
-  // '/www.google.com': handler.handleRequest
-};
 
 var port = 8080;
 var ip = "127.0.0.1";
 var server = http.createServer(function(req, res) {
-
-  var parts = urlParser.parse(req.url);
-  var route = routes[parts.pathname];
-
-  if (route) {
-    route(req, res, "/public/index.html")
-  } else {
-    handler.handleRequest(req, res, "../archives/sites" + parts.pathname);
-  // } else {
-  //   res.writeHead(404);
-  //   res.write("Not Found! HERE!");
-  //   res.end();
-  // }
-  }
+  handler.handleRequest(req, res);
 });
 
 // the module that requires this module

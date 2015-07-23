@@ -11,17 +11,14 @@ exports.headers = headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  
+
   var filepath = path.join(__dirname, asset);
-  
-  console.dir(filepath);
   
   fs.readFile(filepath, function(err, data) {
     
       if (err) { throw err; }
 
-      var statusCode = 200;
-      res.writeHead(statusCode, headers);
+      res.writeHead(200, headers);
       res.write(data);
       res.end();
 
@@ -32,8 +29,26 @@ exports.serveAssets = function(res, asset, callback) {
   
 };
 
-exports.writeUrl = function(res) {
+exports.retrieveUrl = function() {
 
+};
+
+exports.writeUrl = function(req, res) {
+  var data = '';
+  req.on('data',  function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    
+    console.log(JSON.parse(data));
+    archive.addUrlToList(JSON.parse(data).url);
+    
+    res.writeHead(302, headers);
+    res.end();
+    
+  });
+
+  // archive.isUrlInList();  
 }
 
 // As you progress, keep thinking about what helper functions you can put here!
