@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require("http-request");
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -57,11 +58,18 @@ exports.isUrlArchived = function(url, cb){
 };
 
 exports.downloadUrls = function(urls){
-  exports.readListOfUrls(function(listUrls) {
-    for (var i=0; i < urls.length; i++) {
-      exports.isUrlInList(urls[i], function(url) {
-        //TO DO:  HOOK UP TO CRON JOB FOR DOWNLOADING WEBPAGES FROM SITES
-      });
-    }
-  });
+  for (var i=0; i < urls.length; i++) {
+    var url = urls[i];
+    // exports.isUrlInList(url, function(isInList) {
+      // if (!isInList) {
+    console.log('we got to the downaload part', url);
+    console.log(exports.paths.archivedSites + "/" + url);
+    var urlObj = {
+      url: 'http://' + url,
+      method: 'GET',
+    };
+    http.get(urlObj, "../archives/sites/" + url);
+      // }
+    // });
+  }
 };
